@@ -1,8 +1,8 @@
-# Protocol Boundary Detection with Dual-Stream Architecture
+# Protocol Boundary Identification with Dual-Stream Architecture
 
 [English](README.md) | [中文](README_zh-CN.md)
 
-Deep learning model for protocol message field boundary identification, applicable to IoT and industrial protocols
+Deep learning model for format inference in protocol reverse engineering, applicable to IoT and industrial protocols
 
 ## Introduction
 
@@ -29,7 +29,15 @@ opensource_release/
 ├── data_process.py            # Data processing module
 ├── ensemble_prediction.py     # Ensemble prediction module
 ├── merge_csv.py               # CSV merging utility
-└── requirements.txt           # Dependency list
+├── requirements.txt           # Dependency list
+├── generate/                  # Protocol dataset generators
+│   ├── README.md              # Generator documentation
+│   ├── *_generator.py         # Protocol generators (TCP, UDP, ARP, DNS, etc.)
+│   └── csv/                   # Generated protocol datasets
+└── backup/                    # Pre-trained model weights
+    ├── model_epoch_10_cross_protocol.pth                      # Full model
+    ├── model_epoch_10_cross_protocol_horizontal_ablation.pth  # Horizontal-only ablation
+    └── model_epoch_10_cross_protocol_nofilm.pth               # No-FiLM ablation
 ```
 
 ## File Descriptions
@@ -70,6 +78,21 @@ opensource_release/
   - Protocol message grouping
   - Training sample generation
   - Diversity evaluation
+
+### Dataset Generation
+
+- **generate/**: Protocol dataset generator collection
+  - Contains 12 protocol generators (TCP, UDP, ARP, DNS, MQTT, CoAP, BGP, RADIUS, Modbus, S7Comm, OMRON FINS, HART-IP)
+  - Automatically generates protocol message datasets with field boundary annotations
+  - See [generate/README.md](generate/README.md) for detailed documentation
+
+### Pre-trained Models
+
+- **backup/**: Pre-trained model weights
+  - **model_epoch_10_cross_protocol.pth**: Complete dual-stream model trained on 6 protocols (tcp, udp, arp, dns, bgp, radius)
+  - **model_epoch_10_cross_protocol_horizontal_ablation.pth**: Horizontal-only ablation model (without vertical stream)
+  - **model_epoch_10_cross_protocol_nofilm.pth**: No-FiLM ablation model (without FiLM feature modulation)
+  - These models can be directly used for testing or fine-tuning
 
 ## Quick Start
 

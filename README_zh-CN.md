@@ -1,8 +1,8 @@
-# Protocol Boundary Detection with Dual-Stream Architecture
+# Protocol Boundary Identification with Dual-Stream Architecture
 
 [English](README.md) | [中文](README_zh-CN.md)
 
-协议边界检测双流架构模型 - 用于协议报文字段边界识别，适用于IoT和工业协议
+未知协议格式推断双流架构模型 - 用于未知协议报文字段边界识别，适用于IoT和工业协议
 
 ## 项目简介
 
@@ -29,7 +29,15 @@ opensource_release/
 ├── data_process.py            # 数据处理模块
 ├── ensemble_prediction.py     # 集成预测模块
 ├── merge_csv.py               # CSV合并工具
-└── requirements.txt           # 依赖包列表
+├── requirements.txt           # 依赖包列表
+├── generate/                  # 协议数据集生成器
+│   ├── README.md              # 生成器文档
+│   ├── *_generator.py         # 协议生成器 (TCP, UDP, ARP, DNS 等)
+│   └── csv/                   # 生成的协议数据集
+└── backup/                    # 预训练模型权重
+    ├── model_epoch_10_cross_protocol.pth                      # 完整模型
+    ├── model_epoch_10_cross_protocol_horizontal_ablation.pth  # 仅水平流消融模型
+    └── model_epoch_10_cross_protocol_nofilm.pth               # 无FiLM消融模型
 ```
 
 ## 文件说明
@@ -70,6 +78,21 @@ opensource_release/
   - 协议报文分组
   - 训练样本生成
   - 多样性评估
+
+### 数据集生成
+
+- **generate/**: 协议数据集生成器集合
+  - 包含12个协议生成器 (TCP, UDP, ARP, DNS, MQTT, CoAP, BGP, RADIUS, Modbus, S7Comm, OMRON FINS, HART-IP)
+  - 自动生成带有字段边界标注的协议报文数据集
+  - 详细文档请参见 [generate/README.md](generate/README.md)
+
+### 预训练模型
+
+- **backup/**: 预训练模型权重
+  - **model_epoch_10_cross_protocol.pth**: 完整的双流模型,在6个协议上训练 (tcp, udp, arp, dns, bgp, radius)
+  - **model_epoch_10_cross_protocol_horizontal_ablation.pth**: 仅水平流消融模型 (无垂直流)
+  - **model_epoch_10_cross_protocol_nofilm.pth**: 无FiLM消融模型 (无FiLM特征调制)
+  - 这些模型可以直接用于测试或微调
 
 ## 快速开始
 
