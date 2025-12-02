@@ -49,6 +49,8 @@ logs/
 *.csv
 *.json
 !requirements.txt
+!generate/csv/*.csv
+!generate/public/*.csv
 
 # Backup files
 *_backup*.py
