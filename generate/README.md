@@ -191,7 +191,7 @@ PCAP files contain standard Wireshark-compatible packet captures:
 
 ```bash
 # Navigate to the generate directory
-cd opensource_release/generate
+cd generate
 
 # Run a specific generator
 python modbus_generator.py
